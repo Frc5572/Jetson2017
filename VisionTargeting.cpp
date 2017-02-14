@@ -59,7 +59,7 @@ void removeSmall(Mat* s, int size){
 
 int main(int argc, char* argv[])
 {
-    VideoCapture cap("/dev/video0"); // open the video file for reading
+    VideoCapture cap(0); // open the video file for reading
 	
     if ( !cap.isOpened() )  // if not success, exit program
     {
