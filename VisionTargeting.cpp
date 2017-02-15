@@ -157,9 +157,9 @@ int main(int argc, char* argv[])
 	circle(frame, Point(300, 300), 10, Scalar(128,128,128), 10);
 	#ifdef DEBUG
 	imshow("Frame", frame);
-	#endif
 	int m;
 	if((m = waitKey(1)) != -1){cout << m << endl;break;}
+	#endif
 
     }
 	client::quit();
