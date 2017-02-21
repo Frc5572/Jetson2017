@@ -7,12 +7,14 @@
 #include "enet.h"
 #include <mutex>
 
-#define HSV Scalar(57, 150, 100), Scalar(87, 255, 255)
-#define DEBUG
+#define HSV Scalar(50, 90, 50), Scalar(100, 255, 255)
+//#define DEBUG
+
 using namespace cv;
 using namespace std;
 
-std::mutex sending_lock;
+ENetPeer *m;
+bool connected = false;
 
 union S {
 	enet_uint8 byte[sizeof(long double)];
@@ -23,12 +25,11 @@ S sending;
 
 void connect(ENetPeer* peer, ENetHost* host, ENetEvent event){
 	std::cout << "connect:" << peer->address.host << std::endl;
+	connected = true;
 }
 
 void recieve(ENetPeer* peer, ENetHost* host, ENetEvent event){
-	sending_lock.lock();
-	client::send(sending.byte, sizeof(long double), peer);
-	sending_lock.unlock();
+	m = peer;
 }
 
 void disconnect(ENetPeer* peer, ENetHost* host, ENetEvent event){
@@ -148,19 +149,19 @@ int main(int argc, char* argv[])
 
 	Point center1(first_center_x, first_center_y), center2(second_center_x, second_center_y);
 
-
-	sending_lock.lock();
-	sending.send = targetDist(first_left, first_right, second_left, second_right);
-	sending_lock.unlock();
+	//sending.send = targetDist(first_left, first_right, second_left, second_right);
+	sending.send=(first_center_x+second_center_x)/2
+	if(connected)
+		client::send(sending.byte, sizeof(long double), m);
 	}
 	
 	circle(frame, Point(300, 300), 10, Scalar(128,128,128), 10);
 	#ifdef DEBUG
 	imshow("Frame", frame);
+	
 	int m;
 	if((m = waitKey(1)) != -1){cout << m << endl;break;}
 	#endif
-
     }
 	client::quit();
     return 0;
