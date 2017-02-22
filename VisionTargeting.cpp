@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
 	Point center1(first_center_x, first_center_y), center2(second_center_x, second_center_y);
 
 	//sending.send = targetDist(first_left, first_right, second_left, second_right);
-	sending.send=(first_center_x+second_center_x)/2;
+	sending.send=((first_center_x+second_center_x)/2)/frame.size().width;
 	if(connected)
 		client::send(sending.byte, sizeof(long double), m);
 	}
